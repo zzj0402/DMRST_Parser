@@ -43,6 +43,21 @@ def inference(model, tokenizer, input_sentences, batch_size):
     return input_sentences, all_segmentation_pred, all_tree_parsing_pred
 
 
+def segmented_edus(input,edu_breaks):
+    edus = []
+    first_edu=input[:edu_breaks[0]+1]
+# replace _ with empty space
+    first_edu=''.join(first_edu)
+    edu=first_edu.replace('▁',' ')
+    edu_counter=1
+    edus.append(edu[1:])
+    while edu_counter<len(edu_breaks):
+        edu=input[edu_breaks[edu_counter-1]+1:edu_breaks[edu_counter]+1]
+        edus.append(''.join(edu).replace('▁',' ')[1:])
+        edu_counter+=1
+    return edus
+    
+
 if __name__ == '__main__':
 
     args = parse_args()
@@ -66,8 +81,13 @@ if __name__ == '__main__':
     model = model.eval()
 
     Test_InputSentences = open("./data/text_for_inference.txt").readlines()
-
     input_sentences, all_segmentation_pred, all_tree_parsing_pred = inference(model, bert_tokenizer, Test_InputSentences, batch_size)
-    print(input_sentences[0])
     print(all_segmentation_pred[0])
-    print(all_tree_parsing_pred[0])
+    output_index=0
+    while output_index<len(input_sentences):
+        edus=segmented_edus(input_sentences[output_index],all_segmentation_pred[output_index])
+        for edu in edus:
+            print(edu)
+        output_index+=1
+        print('---')
+    
