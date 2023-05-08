@@ -1,5 +1,1 @@
-In the interview at his home in Balmoral, Prince Charles said action such as blocking roads "isn't helpful".
-But he said he totally understood the "frustration" climate campaigners felt.
-And he warned of a "catastrophic" impact if more ambitious action isn't taken on climate change.
-Speaking in the gardens of his house on the Balmoral estate in Aberdeenshire, the prince said it had taken too long for the world to wake up to the risks of climate change. 
-And he worried that world leaders would "just talk" when they meet in Glasgow in November for a crucial UN climate conference.
+WWBN AVideo is an open source video platform. In AVideo prior to version 12.4, a normal user can make a Meeting Schedule where the user can invite another user in that Meeting, but it does not properly sanitize the malicious characters when creating a Meeting Room. This allows attacker to insert malicious scripts. Since any USER including the ADMIN can see the meeting room that was created by the attacker this can lead to cookie hijacking and takeover of any accounts. Version 12.4 contains a patch for this issue.

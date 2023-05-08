@@ -6,7 +6,7 @@ import os
 import config
 from transformers import AutoTokenizer, AutoModel
 from model_depth import ParsingNet
-
+import re
 os.environ["CUDA_VISIBLE_DEVICES"] = str(config.global_gpu_id)
 
 
@@ -82,12 +82,25 @@ if __name__ == '__main__':
 
     Test_InputSentences = open("./data/text_for_inference.txt").readlines()
     input_sentences, all_segmentation_pred, all_tree_parsing_pred = inference(model, bert_tokenizer, Test_InputSentences, batch_size)
+    print('---EDU Boundaries:---')
     print(all_segmentation_pred[0])
     output_index=0
+    print('---EDUs---')
     while output_index<len(input_sentences):
         edus=segmented_edus(input_sentences[output_index],all_segmentation_pred[output_index])
+        edu_num=1
         for edu in edus:
-            print(edu)
+            print(edu_num, edu)
+            edu_num+=1
         output_index+=1
         print('---')
-    
+    print('---RST Relations---')
+    relation_num=1
+    for tree in all_tree_parsing_pred:
+        for t in tree:
+            # Find all the relations in parantheses
+            pattern = re.compile("\((.*?)\)")
+            relations = pattern.findall(t)
+            for r in relations:
+                print(relation_num,r)
+                relation_num+=1
